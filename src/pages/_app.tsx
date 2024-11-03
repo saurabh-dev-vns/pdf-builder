@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import type { AppProps } from 'next/app';
 import '../../public/css/globals.css';
 import { MdDarkMode } from "react-icons/md";
+import { MdOutlineLightMode } from "react-icons/md";
 import { NavBar } from '../components/Navbar/navbar'
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -11,8 +12,9 @@ export default function App({ Component, pageProps }: AppProps) {
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme');
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    setIsDarkMode(savedTheme ? savedTheme === 'dark' : prefersDark);
-    document.documentElement.classList.toggle('dark', savedTheme === 'dark' || prefersDark);
+    const initialDarkMode = savedTheme ? savedTheme === 'dark' : prefersDark;
+    setIsDarkMode(initialDarkMode);
+    document.documentElement.classList.toggle('dark', initialDarkMode);
   }, []);
 
   const toggleDarkMode = () => {
@@ -24,11 +26,14 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <main className={`${isDarkMode ? 'bg-background-dark' : 'bg-background-light'}
-    w-full min-h-screen transition-colors`}
+    w-full min-h-screen transition-colors overflow-x-hidden`}
     >
       <button onClick={toggleDarkMode}
-        className="absolute right-4 hidden z-0 p-2 m-4 bg-primary-light dark:bg-primary-dark text-white rounded">
-        Toggle Dark Mode
+        className="fixed flex justify-center items-center  bottom-4 right-4 p-2 w-12 h-12 bg-nav-light  dark:bg-nav-dark dark:text-white text-black rounded-full">
+        {
+          isDarkMode ? (<MdOutlineLightMode className='h-8 w-8' />) : (<MdDarkMode className='h-8 w-8' />)
+        }
+
       </button>
       <NavBar />
       <Component {...pageProps} />
