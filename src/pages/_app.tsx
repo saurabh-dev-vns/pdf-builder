@@ -5,6 +5,7 @@ import '../../public/css/globals.css';
 import { MdDarkMode } from "react-icons/md";
 import { MdOutlineLightMode } from "react-icons/md";
 import { NavBar } from '../components/Navbar/navbar'
+import { FloatingNavbar } from '@/components/Navbar/floatingNavBar';
 
 export default function App({ Component, pageProps }: AppProps) {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -26,7 +27,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <main className={`${isDarkMode ? 'bg-background-dark' : 'bg-background-light'}
-    w-full min-h-screen transition-colors overflow-x-hidden`}
+    relative w-full min-h-screen transition-colors overflow-x-hidden`}
     >
       <button onClick={toggleDarkMode}
         className="fixed flex justify-center items-center  bottom-4 right-4 p-2 w-12 h-12 bg-nav-light  dark:bg-nav-dark dark:text-white text-black rounded-full">
@@ -36,6 +37,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
       </button>
       <NavBar />
+      <FloatingNavbar />
       <Component {...pageProps} />
     </main>
   );
